@@ -12,7 +12,7 @@ import view.TelaPrincipal;
  */
 public class TP1ProdutoLogin {
     public static void main(String[] args){  
-        TelaPrincipal tela = new TelaPrincipal();
+        Login tela = new Login();
         tela.setVisible(true);
 } 
 }
