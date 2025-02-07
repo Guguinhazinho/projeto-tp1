@@ -244,7 +244,7 @@ public class Login extends javax.swing.JFrame {
         if (authenticate(email, senha, filePath)) {
             JOptionPane.showMessageDialog(this, "Login bem-sucedido!");
             if (filePath.equals("C:\\Users\\lucas\\OneDrive\\Documents\\Unb\\ProjetoTP1\\projeto-tp1-main\\src\\main\\java\\com\\mycompany\\projetotp1\\UserDB.csv")){
-                this.setVisible(false);
+                this.dispose();
                 TelaProdutos tela = new TelaProdutos();
                 tela.setVisible(true);
             } else {
