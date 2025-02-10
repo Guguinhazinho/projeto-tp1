@@ -247,9 +247,10 @@ public class Login extends javax.swing.JFrame {
                 this.dispose();
                 TelaCliente tela = new TelaCliente();
                 tela.setVisible(true);
-            } else {
+            } else if (filePath.contains(DIRETORIO_DADOS + "AdminDB.csv")) {
                 this.dispose();
-                //Colocar tela do Admin
+                TelaAdmin tela = new TelaAdmin();
+                tela.setVisible(true);
                 
             }
             
