@@ -19,8 +19,9 @@ public class TelaProdutos extends javax.swing.JFrame {
     
     
     public TelaProdutos() {
+        private static final String DIRETORIO_DADOS = "src/Dados/";
         initComponents();
-        String filePath = "C:\\Users\\lucas\\OneDrive\\Documents\\Unb\\ProjetoTP1\\projeto-tp1-main\\src\\main\\java\\com\\mycompany\\projetotp1\\Produtos.csv";
+        String filePath = DIRETORIO_DADOS + "Produtos.csv";
         File file = new File(filePath);
         
         try (BufferedReader leitor = new BufferedReader(new FileReader(file))) {
@@ -299,7 +300,7 @@ public class TelaProdutos extends javax.swing.JFrame {
         }
 
         // Caminho do arquivo de produtos
-        String caminhoArquivo = "C:\\Users\\lucas\\OneDrive\\Documents\\Unb\\ProjetoTP1\\projeto-tp1-main\\src\\main\\java\\com\\mycompany\\projetotp1\\Produtos.csv";
+        String caminhoArquivo = DIRETORIO_DADOS + "Produtos.csv";
 
         // Verificar no arquivo se o produto existe e se há quantidade suficiente
         try (BufferedReader leitor = new BufferedReader(new FileReader(caminhoArquivo))) {
