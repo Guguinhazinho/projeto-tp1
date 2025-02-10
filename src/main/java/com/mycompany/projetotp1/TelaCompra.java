@@ -1,102 +1,119 @@
 package com.mycompany.projetotp1;
 
 import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
-public class TelaCompra extends javax.swing.JFrame {
+public class TelaCompra extends JFrame {
+    private JLabel jLabelPagamento, jLabelTotal, jLabelNumeroCartao, jLabelVencimento, jLabelCodigoSeguranca, jLabelNomeTitular;
+    private JComboBox<String> jComboBoxPagamento;
+    private JButton jButtonConfirmar;
+    private JTextField jTextFieldTotal, jTextFieldNumeroCartao, jTextFieldVencimento, jTextFieldCodigoSeguranca, jTextFieldNomeTitular;
 
     public TelaCompra() {
-        initComponents();
-    }
+        setTitle("Tela de Compra");
+        setSize(400, 400);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLayout(new GridLayout(10, 1));
 
-    private void initComponents() {
-
-        jLabel1 = new javax.swing.JLabel();
-        jComboBoxPagamento = new javax.swing.JComboBox<>();
-        jButtonConfirmar = new javax.swing.JButton();
-        jLabelTotal = new javax.swing.JLabel();
-        jTextFieldTotal = new javax.swing.JTextField();
-
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 20)); // NOI18N
-        jLabel1.setText("Selecione o tipo de pagamento:");
-
-        // Configurando o JComboBox
-        jComboBoxPagamento.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Crédito", "Débito"}));
-
-        jButtonConfirmar.setText("Confirmar Compra");
-        jButtonConfirmar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonConfirmarActionPerformed(evt);
+        jLabelPagamento = new JLabel("Selecione o tipo de pagamento:");
+        jComboBoxPagamento = new JComboBox<>(new String[]{"Crédito", "Débito"});
+        jComboBoxPagamento.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                atualizarCamposCartao();
             }
         });
 
-        jLabelTotal.setFont(new java.awt.Font("Segoe UI", 0, 20)); // NOI18N
-        jLabelTotal.setText("Total:");
-
+        jLabelTotal = new JLabel("Total:");
+        jTextFieldTotal = new JTextField("100.00");
         jTextFieldTotal.setEditable(false);
-        jTextFieldTotal.setFont(new java.awt.Font("Times New Roman", 0, 20)); // NOI18N
-        jTextFieldTotal.setText("100.00"); // Apenas um exemplo, o valor real viria de outra lógica de cálculo
-        jTextFieldTotal.setBorder(null);
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(20, 20, 20)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1)
-                    .addComponent(jComboBoxPagamento, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabelTotal)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jTextFieldTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jButtonConfirmar, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(20, Short.MAX_VALUE))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(30, 30, 30)
-                .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jComboBoxPagamento, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(30, 30, 30)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabelTotal)
-                    .addComponent(jTextFieldTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(30, 30, 30)
-                .addComponent(jButtonConfirmar, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(30, Short.MAX_VALUE))
-        );
+        jLabelNumeroCartao = new JLabel("Número do Cartão:");
+        jTextFieldNumeroCartao = new JTextField();
+        limitarEntradaNumerica(jTextFieldNumeroCartao);
 
-        pack();
+        jLabelVencimento = new JLabel("Data de Vencimento:");
+        jTextFieldVencimento = new JTextField();
+        limitarEntradaNumerica(jTextFieldVencimento);
+
+        jLabelCodigoSeguranca = new JLabel("Código de Segurança:");
+        jTextFieldCodigoSeguranca = new JTextField();
+        limitarEntradaNumerica(jTextFieldCodigoSeguranca);
+
+        jLabelNomeTitular = new JLabel("Nome do Titular:");
+        jTextFieldNomeTitular = new JTextField();
+
+        jButtonConfirmar = new JButton("Confirmar Compra");
+        jButtonConfirmar.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                confirmarCompra();
+            }
+        });
+
+        add(jLabelPagamento);
+        add(jComboBoxPagamento);
+        add(jLabelTotal);
+        add(jTextFieldTotal);
+        add(jLabelNumeroCartao);
+        add(jTextFieldNumeroCartao);
+        add(jLabelVencimento);
+        add(jTextFieldVencimento);
+        add(jLabelCodigoSeguranca);
+        add(jTextFieldCodigoSeguranca);
+        add(jLabelNomeTitular);
+        add(jTextFieldNomeTitular);
+        add(jButtonConfirmar);
+
+        atualizarCamposCartao();
+        setVisible(true);
     }
 
-    private void jButtonConfirmarActionPerformed(java.awt.event.ActionEvent evt) {
-        String tipoPagamento = jComboBoxPagamento.getSelectedItem().toString(); // Obtém o tipo de pagamento selecionado
-        String total = jTextFieldTotal.getText(); // Obtém o total da compra
-
-        Compra compra = new Compra(Double.parseDouble(total), tipoPagamento.equals("Cartão"));
-
-        // Exibe uma mensagem com os detalhes da compra
-        JOptionPane.showMessageDialog(this, "Compra realizada:\n" +
-                "Total: R$ " + compra.getTotal() + "\n" +
-                "Tipo de pagamento: " + tipoPagamento, "Recibo", JOptionPane.INFORMATION_MESSAGE);
-    }
-
-    public static void main(String args[]) {
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new TelaCompra().setVisible(true);
+    private void limitarEntradaNumerica(JTextField textField) {
+        textField.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                char c = e.getKeyChar();
+                if (!Character.isDigit(c)) {
+                    e.consume();
+                }
             }
         });
     }
 
-    private javax.swing.JButton jButtonConfirmar;
-    private javax.swing.JComboBox<String> jComboBoxPagamento;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabelTotal;
-    private javax.swing.JTextField jTextFieldTotal;
+    private void atualizarCamposCartao() {
+        boolean exibirCampos = jComboBoxPagamento.getSelectedItem().equals("Crédito") || jComboBoxPagamento.getSelectedItem().equals("Débito");
+        jLabelNumeroCartao.setVisible(exibirCampos);
+        jTextFieldNumeroCartao.setVisible(exibirCampos);
+        jLabelVencimento.setVisible(exibirCampos);
+        jTextFieldVencimento.setVisible(exibirCampos);
+        jLabelCodigoSeguranca.setVisible(exibirCampos);
+        jTextFieldCodigoSeguranca.setVisible(exibirCampos);
+        jLabelNomeTitular.setVisible(exibirCampos);
+        jTextFieldNomeTitular.setVisible(exibirCampos);
+    }
+
+    private void confirmarCompra() {
+        String tipoPagamento = (String) jComboBoxPagamento.getSelectedItem();
+        String total = jTextFieldTotal.getText();
+        String numeroCartao = jTextFieldNumeroCartao.getText().trim();
+        String vencimento = jTextFieldVencimento.getText().trim();
+        String codigoSeguranca = jTextFieldCodigoSeguranca.getText().trim();
+        String nomeTitular = jTextFieldNomeTitular.getText().trim();
+
+        if (("Crédito".equals(tipoPagamento) || "Débito".equals(tipoPagamento)) && 
+            (numeroCartao.isEmpty() || vencimento.isEmpty() || codigoSeguranca.isEmpty() || nomeTitular.isEmpty())) {
+            JOptionPane.showMessageDialog(this, "Por favor, preencha todos os campos do cartão.", "Erro", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        JOptionPane.showMessageDialog(this, "Compra realizada com " + tipoPagamento.toLowerCase() + "!\nTotal: R$ " + total,
+                "Recibo", JOptionPane.INFORMATION_MESSAGE);
+    }
+
+    public static void main(String[] args) {
+        new TelaCompra();
+    }
 }
