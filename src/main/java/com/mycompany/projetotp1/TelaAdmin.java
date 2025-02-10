@@ -13,12 +13,13 @@ public class TelaAdmin {
     private JButton btnSair;
     private Admin admin;
     private ArrayList<String> historicoEstoque;
-
+    
+    private static final String DIRETORIO_DADOS = "src/Dados/";
+    
     public TelaAdmin() {
         admin = new Admin();
         historicoEstoque = new ArrayList<>();
 
-    private static final String DIRETORIO_DADOS = "src/Dados/";
         
         frame = new JFrame("Administração");
         frame.setSize(400, 300);
