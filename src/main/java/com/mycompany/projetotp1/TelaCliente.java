@@ -1,155 +1,126 @@
 package com.mycompany.projetotp1;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.List;
+import java.io.*;
 
 public class TelaCliente extends JFrame {
-    private JTextField nomeField;
-    private JTextField dataNascimentoField;
-    private JTextField cpfField;
-    private JTextField enderecoField;
-    private JTextField contatoField;
-    private JButton adicionarButton;
-    private JButton alterarButton;
-    private JButton fazerCompraButton;
-    private JButton historicoButton;
-    private List<Cliente> clientes = new ArrayList<>();
-    
-
-
-public class TelaProduto extends JFrame {
-    public TelaProduto() {
-        setTitle("Produtos Disponíveis");
-        setSize(400, 300);
-        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
-
-        // Placeholder para produtos
-        JLabel placeholder = new JLabel("Lista de produtos será implementada.");
-        add(placeholder);
-
-        // Adicionar mais componentes conforme necessário futuramente
-    }
-
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                //new TelaProduto().setVisible(true);
-            }
-        });
-    }
-}
-
+    private JTextField emailField, nomeField, cpfField, cepField, enderecoField, contatoField;
+    private JButton editarButton, fazerCompraButton, historicoButton;
+    private boolean isEditing = false;
+    private static final String DIRETORIO_DADOS = "src/Dados/";
+    private static final String ARQUIVO_CLIENTES = DIRETORIO_DADOS + "UserDB.csv";
+    private static final String ARQUIVO_COMPLETO = DIRETORIO_DADOS + "dados_completos_clientes.csv";
 
     public TelaCliente() {
         setTitle("Gerenciar Cliente");
         setSize(400, 400);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
+        setLayout(new BorderLayout());
+        
+        Color backgroundColor = new Color(45, 45, 45);
+        Color buttonBackgroundColor = new Color(69, 73, 74);
+        Color textColor = Color.WHITE;
 
-        nomeField = new JTextField(20);
-        dataNascimentoField = new JTextField(20);
-        cpfField = new JTextField(20);
-        enderecoField = new JTextField(20);
-        contatoField = new JTextField(20);
-        adicionarButton = new JButton("Adicionar Cliente");
-        alterarButton = new JButton("Alterar Dados");
-        fazerCompraButton = new JButton("Fazer Compra");
-        historicoButton = new JButton("Histórico de Compras");
+        JPanel panel = new JPanel(new GridLayout(7, 2, 5, 5));
+        panel.setBackground(backgroundColor);
 
-        adicionarButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String nome = nomeField.getText();
-                String dataNascimento = dataNascimentoField.getText();
-                String cpf = cpfField.getText();
-                String endereco = enderecoField.getText();
-                String contato = contatoField.getText();
-                Cliente cliente = new Cliente(nome, dataNascimento, cpf, endereco, contato);
-                clientes.add(cliente);
-                JOptionPane.showMessageDialog(null, "Cliente adicionado com sucesso!");
-                limparCampos();
-            }
-        });
+        emailField = createTextField("Email", panel, textColor, backgroundColor);
+        nomeField = createTextField("Nome", panel, textColor, backgroundColor);
+        cpfField = createTextField("CPF", panel, textColor, backgroundColor);
+        cepField = createTextField("CEP", panel, textColor, backgroundColor);
+        enderecoField = createTextField("Endereço", panel, textColor, backgroundColor);
+        contatoField = createTextField("Telefone de Contato", panel, textColor, backgroundColor);
 
-        alterarButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String cpf = JOptionPane.showInputDialog("Informe o CPF do cliente para alterar:");
-                for (Cliente cliente : clientes) {
-                    if (cliente.getCpf().equals(cpf)) {
-                        // Preencher os campos com os dados atuais do cliente
-                        nomeField.setText(cliente.getNome());
-                        dataNascimentoField.setText(cliente.getDataNascimento());
-                        enderecoField.setText(cliente.getEndereco());
-                        contatoField.setText(cliente.getContato());
+        editarButton = createButton("Adicionar/Editar Dados", buttonBackgroundColor, textColor);
+        fazerCompraButton = createButton("Fazer Compra", buttonBackgroundColor, textColor);
+        historicoButton = createButton("Histórico de Compras", buttonBackgroundColor, textColor);
 
-                        // Alterar dados após preenchimento
-                        int confirmar = JOptionPane.showConfirmDialog(null, "Confirma alteração dos dados?");
-                        if (confirmar == JOptionPane.YES_OPTION) {
-                            cliente.setNome(nomeField.getText());
-                            cliente.setDataNascimento(dataNascimentoField.getText());
-                            cliente.setEndereco(enderecoField.getText());
-                            cliente.setContato(contatoField.getText());
-                            JOptionPane.showMessageDialog(null, "Dados alterados com sucesso!");
-                        }
-                        return;
-                    }
-                }
-                JOptionPane.showMessageDialog(null, "Cliente não encontrado!");
-            }
-        });
+        editarButton.addActionListener(e -> toggleEditingMode());
+        fazerCompraButton.addActionListener(e -> new TelaProdutos().setVisible(true));
+        historicoButton.addActionListener(e -> JOptionPane.showMessageDialog(null, "Histórico vazio (Funcionalidade será implementada)."));
 
-        fazerCompraButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                // Abrir a guia de produtos
-                new TelaProduto().setVisible(true);
-            }
-        });
+        JPanel buttonPanel = new JPanel(new GridLayout(1, 3, 5, 5));
+        buttonPanel.setBackground(backgroundColor);
+        buttonPanel.add(editarButton);
+        buttonPanel.add(fazerCompraButton);
+        buttonPanel.add(historicoButton);
 
-        historicoButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                // Placeholder para histórico de compras
-                JOptionPane.showMessageDialog(null, "Histórico vazio (Funcionalidade será implementada).");
-            }
-        });
+        add(panel, BorderLayout.CENTER);
+        add(buttonPanel, BorderLayout.SOUTH);
 
-        add(new JLabel("Nome:"));
-        add(nomeField);
-        add(new JLabel("Data de Nascimento:"));
-        add(dataNascimentoField);
-        add(new JLabel("CPF:"));
-        add(cpfField);
-        add(new JLabel("Endereço:"));
-        add(enderecoField);
-        add(new JLabel("Contato:"));
-        add(contatoField);
-        add(adicionarButton);
-        add(alterarButton);
-        add(fazerCompraButton);
-        add(historicoButton);
+        carregarEmail();
     }
 
-    private void limparCampos() {
-        nomeField.setText("");
-        dataNascimentoField.setText("");
-        cpfField.setText("");
-        enderecoField.setText("");
-        contatoField.setText("");
+    private JTextField createTextField(String label, JPanel panel, Color textColor, Color backgroundColor) {
+        JLabel jLabel = new JLabel(label + ":");
+        jLabel.setForeground(textColor);
+        JTextField textField = new JTextField(20);
+        textField.setBackground(backgroundColor);
+        textField.setForeground(textColor);
+        textField.setEditable(false);
+        panel.add(jLabel);
+        panel.add(textField);
+        return textField;
+    }
+
+    private JButton createButton(String text, Color background, Color foreground) {
+        JButton button = new JButton(text);
+        button.setBackground(background);
+        button.setForeground(foreground);
+        return button;
+    }
+
+    private void toggleEditingMode() {
+        isEditing = !isEditing;
+        for (Component comp : getContentPane().getComponents()) {
+            if (comp instanceof JPanel) {
+                for (Component innerComp : ((JPanel) comp).getComponents()) {
+                    if (innerComp instanceof JTextField) {
+                        ((JTextField) innerComp).setEditable(isEditing);
+                    }
+                }
+            }
+        }
+        if (!isEditing) {
+            salvarDadosCliente();
+            JOptionPane.showMessageDialog(null, "Dados do cliente atualizados com sucesso!");
+        }
+    }
+
+    private void carregarEmail() {
+        File diretorio = new File(DIRETORIO_DADOS);
+        if (!diretorio.exists()) {
+            diretorio.mkdirs();
+        }
+        
+        try (BufferedReader br = new BufferedReader(new FileReader(ARQUIVO_CLIENTES))) {
+            String linha;
+            if ((linha = br.readLine()) != null) {
+                String[] dados = linha.split(",");
+                if (dados.length > 0) {
+                    emailField.setText(dados[0]);
+                }
+            }
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(null, "Erro ao carregar email: " + e.getMessage());
+        }
+    }
+
+    private void salvarDadosCliente() {
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(ARQUIVO_COMPLETO, true))) {
+            String linha = emailField.getText() + "," + nomeField.getText() + "," + cpfField.getText() + "," +
+                           cepField.getText() + "," + enderecoField.getText() + "," + contatoField.getText();
+            bw.write(linha);
+            bw.newLine();
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(null, "Erro ao salvar os dados do cliente: " + e.getMessage());
+        }
     }
 
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                new TelaCliente().setVisible(true);
-            }
-        });
+        SwingUtilities.invokeLater(() -> new TelaCliente().setVisible(true));
     }
 }
