@@ -2,18 +2,17 @@ package com.mycompany.projetotp1;
 
 public class Estoque {
     private String nomeProduto;
-    private String codProduto;
+    private float valorProduto; // Alterado para float
     private int quantProduto;
 
-    public Estoque(String nomeProduto, String codProduto, int quantProduto) {
+    public Estoque(String nomeProduto, float valorProduto, int quantProduto) {
         this.nomeProduto = nomeProduto;
-        this.codProduto = codProduto;
+        this.valorProduto = valorProduto;
         this.quantProduto = quantProduto;
     }
 
     public void avisoBaixoEstoq() {
-        // Implementação do método para avisar quando o estoque está baixo
-        if (quantProduto < 10) { // Exemplo de limite para aviso de estoque baixo
+        if (quantProduto < 10) { 
             System.out.println("Aviso: Estoque baixo para o produto " + nomeProduto);
         }
     }
@@ -27,12 +26,12 @@ public class Estoque {
         this.nomeProduto = nomeProduto;
     }
 
-    public String getCodProduto() {
-        return codProduto;
+    public float getValorProduto() {
+        return valorProduto;
     }
 
-    public void setCodProduto(String codProduto) {
-        this.codProduto = codProduto;
+    public void setValorProduto(float valorProduto) {
+        this.valorProduto = valorProduto;
     }
 
     public int getQuantProduto() {
