@@ -247,9 +247,10 @@ public class Login extends javax.swing.JFrame {
                 this.dispose();
                 TelaProdutos tela = new TelaProdutos();
                 tela.setVisible(true);
-            } else {
+            } else if (filePath.contains("AdminDB.csv")) {
                 this.dispose();
-                //Colocar tela do Admin
+                TelaAdmin tela = new TelaAdmin();
+                tela.setVisible(true);
                 
             }
             
@@ -290,9 +291,6 @@ private boolean authenticate(String email, String senha, String filePath) throws
     return false; // Nenhuma correspondência encontrada
 }
 
-    
-
-  
     /**
      * @param args the command line arguments
      */
