@@ -18,6 +18,8 @@ public class TelaAdmin {
         admin = new Admin();
         historicoEstoque = new ArrayList<>();
 
+    private static final String DIRETORIO_DADOS = "src/Dados/";
+        
         frame = new JFrame("Administração");
         frame.setSize(400, 300);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -89,7 +91,7 @@ public class TelaAdmin {
                         historicoEstoque.add(nomeProduto +" - Preço: "+ preco+ " - Quantidade: " + quantidade);
                         
                         // Adicionar ao arquivo Produtos.csv
-                        try (FileWriter writer = new FileWriter("C:\\Users\\Admin\\Documents\\NetBeansProjects\\trabalhoTP1\\src\\main\\java\\com\\mycompany\\trabalhotp1\\Produtos.csv", true)) {
+                        try (FileWriter writer = new FileWriter(DIRETORIO_DADOS + "Produtos.csv", true)) {
                             writer.write(nomeProduto +","+ preco +"," + quantidade + "\n");
                         } catch (IOException e) {
                             JOptionPane.showMessageDialog(null, "Erro ao salvar no arquivo.", "Erro", JOptionPane.ERROR_MESSAGE);
