@@ -28,7 +28,7 @@ public class TelaAdmin {
 
         btnAcessarEstoque = new JButton("Acessar Estoque");
         btnAcessarEstoque.setBounds(100, 30, 200, 30);
-        btnAcessarEstoque.addActionListener(e -> acessarEstoque());
+        btnAcessarEstoque.addActionListener(e -> abrirTelaEstoque());
         frame.add(btnAcessarEstoque);
 
         btnAcessarHistorico = new JButton("Acessar Histórico");
@@ -49,16 +49,8 @@ public class TelaAdmin {
         frame.setVisible(true);
     }
 
-    private void acessarEstoque() {
-        if (historicoEstoque.isEmpty()) {
-            JOptionPane.showMessageDialog(frame, "Nenhum item foi adicionado ao estoque.", "Estoque", JOptionPane.INFORMATION_MESSAGE);
-        } else {
-            StringBuilder historico = new StringBuilder("Itens adicionados ao estoque:\n");
-            for (String item : historicoEstoque) {
-                historico.append("- ").append(item).append("\n");
-            }
-            JOptionPane.showMessageDialog(frame, historico.toString(), "Estoque", JOptionPane.INFORMATION_MESSAGE);
-        }
+    private void abrirTelaEstoque() {
+        SwingUtilities.invokeLater(() -> new TelaEstoque().setVisible(true));
     }
 
     private void acessarHistorico() {
@@ -85,22 +77,22 @@ public class TelaAdmin {
             return;
         }
 
-         try {
-                        int quantidade = Integer.parseInt(quantidadeStr);
-                        int preco = Integer.parseInt(precoProduto);
-                        admin.aumentarEstoque(nomeProduto,preco, quantidade);
-                        historicoEstoque.add(nomeProduto +" - Preço: "+ preco+ " - Quantidade: " + quantidade);
-                        
-                        // Adicionar ao arquivo Produtos.csv
-                        try (FileWriter writer = new FileWriter(DIRETORIO_DADOS + "Produtos.csv", true)) {
-                            writer.write(nomeProduto +","+ preco +"," + quantidade + "\n");
-                        } catch (IOException e) {
-                            JOptionPane.showMessageDialog(null, "Erro ao salvar no arquivo.", "Erro", JOptionPane.ERROR_MESSAGE);
-                        }
-                        
-                    } catch (NumberFormatException e) {
-                        JOptionPane.showMessageDialog(null, "Quantidade inválida. Voltando ao menu...", "Adicionar Estoque", JOptionPane.ERROR_MESSAGE);
-                    }
+        try {
+            int quantidade = Integer.parseInt(quantidadeStr);
+            int preco = Integer.parseInt(precoProduto);
+            admin.aumentarEstoque(nomeProduto, preco, quantidade);
+            historicoEstoque.add(nomeProduto +" - Preço: "+ preco+ " - Quantidade: " + quantidade);
+            
+            // Adicionar ao arquivo Produtos.csv
+            try (FileWriter writer = new FileWriter(DIRETORIO_DADOS + "Produtos.csv", true)) {
+                writer.write(nomeProduto +","+ preco +"," + quantidade + "\n");
+            } catch (IOException e) {
+                JOptionPane.showMessageDialog(null, "Erro ao salvar no arquivo.", "Erro", JOptionPane.ERROR_MESSAGE);
+            }
+            
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(null, "Quantidade inválida. Voltando ao menu...", "Adicionar Estoque", JOptionPane.ERROR_MESSAGE);
+        }
     }
 
     private void sair() {
@@ -112,6 +104,6 @@ public class TelaAdmin {
     }
 
     void setVisible(boolean b) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 }
