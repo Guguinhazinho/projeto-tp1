@@ -1,5 +1,6 @@
 
 package com.mycompany.projetotp1;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -17,11 +18,10 @@ public class TelaProdutos extends javax.swing.JFrame {
      * Creates new form Produtos
      */
     
-    
+    private static final String DIRETORIO_DADOS = "src/Dados/";
     public TelaProdutos() {
-        private static final String DIRETORIO_DADOS = "src/Dados/";
         initComponents();
-        String filePath = DIRETORIO_DADOS + "Produtos.csv";
+         String filePath = DIRETORIO_DADOS + "Produtos.csv";
         File file = new File(filePath);
         
         try (BufferedReader leitor = new BufferedReader(new FileReader(file))) {
@@ -106,13 +106,18 @@ public class TelaProdutos extends javax.swing.JFrame {
         });
 
         jButton3.setText("Comprar");
+        jButton3.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton3MouseClicked(evt);
+            }
+        });
 
         jTable2.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "Nome do Produto", "Quantidade", "Preço"
+                "Nome do Produto", "Preço", "Quantidade"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -145,7 +150,7 @@ public class TelaProdutos extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Nome do Produto", "Quantidade", "Preço"
+                "Nome do Produto", "Preço", "Quantidade"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -346,6 +351,33 @@ public class TelaProdutos extends javax.swing.JFrame {
         jTextField4.setText(String.format("%.2f", zero));
         
     }//GEN-LAST:event_jButton2MouseClicked
+    private void jButton3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton3MouseClicked
+        
+        DefaultTableModel model = (DefaultTableModel) jTable2.getModel(); // Tabela do carrinho
+
+        // Pega o nome do produto e a quantidade inseridos pelo usuário
+        String nomeProduto = jTextField1.getText();
+        String quantidadeTexto = jTextField2.getText();
+
+        // Verifica se os campos não estão vazios
+        if (nomeProduto.isEmpty() || quantidadeTexto.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Por favor, preencha todos os campos.");
+            return;
+        }
+
+        // Verifica se a quantidade é um número válido
+        int quantidadeDesejada;
+        try {
+            quantidadeDesejada = Integer.parseInt(quantidadeTexto);
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Quantidade inválida. Por favor, insira um número.");
+            return;
+        }
+    // Criar e exibir a tela de pagamento
+    TelaCompra telaPagamento = new TelaCompra();
+    telaPagamento.setVisible(true);
+}
+
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         String textoFiltro = jTextField3.getText().trim(); // Obtém o texto do campo de busca
