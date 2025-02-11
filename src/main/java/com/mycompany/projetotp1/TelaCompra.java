@@ -6,6 +6,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import javax.swing.table.DefaultTableModel;
+
+
 
 public class TelaCompra extends JFrame {
     private JLabel jLabelPagamento, jLabelTotal, jLabelNumeroCartao, jLabelVencimento, jLabelCodigoSeguranca, jLabelNomeTitular;
@@ -13,11 +16,15 @@ public class TelaCompra extends JFrame {
     private JButton jButtonConfirmar;
     private JTextField jTextFieldTotal, jTextFieldNumeroCartao, jTextFieldVencimento, jTextFieldCodigoSeguranca, jTextFieldNomeTitular;
 
-    public TelaCompra() {
+    
+    
+    public TelaCompra(String total) {
         setTitle("Tela de Compra");
         setSize(400, 400);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLayout(new GridLayout(10, 1));
+        
+        
 
         jLabelPagamento = new JLabel("Selecione o tipo de pagamento:");
         jComboBoxPagamento = new JComboBox<>(new String[]{"Crédito", "Débito"});
@@ -28,7 +35,7 @@ public class TelaCompra extends JFrame {
         });
 
         jLabelTotal = new JLabel("Total:");
-        jTextFieldTotal = new JTextField("100.00");
+        jTextFieldTotal = new JTextField(total);
         jTextFieldTotal.setEditable(false);
 
         jLabelNumeroCartao = new JLabel("Número do Cartão:");
@@ -111,9 +118,11 @@ public class TelaCompra extends JFrame {
 
         JOptionPane.showMessageDialog(this, "Compra realizada com " + tipoPagamento.toLowerCase() + "!\nTotal: R$ " + total,
                 "Recibo", JOptionPane.INFORMATION_MESSAGE);
+        System.exit(0);
+
     }
 
     public static void main(String[] args) {
-        new TelaCompra();
+        new TelaCompra("0.00");
     }
 }
