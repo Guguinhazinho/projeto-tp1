@@ -14,14 +14,13 @@ import java.io.IOException;
  * @author lucas
  */
 public class Login extends javax.swing.JFrame {
-
+private static final String DIRETORIO_DADOS = "src/Dados/";
     /**
      * Creates new form Dashboard
      */
     public Login() {
         initComponents();
     }
-    private static final String DIRETORIO_DADOS = "src/Dados/";
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
