@@ -1,5 +1,10 @@
 package com.mycompany.projetotp1;
 
+/**
+ *
+ * @author Gustavo
+ */
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
