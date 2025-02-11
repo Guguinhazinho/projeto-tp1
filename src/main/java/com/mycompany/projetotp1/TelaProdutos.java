@@ -273,17 +273,23 @@ public class TelaProdutos extends javax.swing.JFrame {
         DefaultTableModel model = (DefaultTableModel) jTable2.getModel();
 
         for (int i = 0; i < model.getRowCount(); i++) {
-            total += Double.parseDouble(model.getValueAt(i, 2).toString()); // Soma os valores da terceira coluna
-        }
+            // Pega os valores de preço e quantidade da tabela
+            double preco = Double.parseDouble(model.getValueAt(i, 2).toString());  // Preço está na terceira coluna (índice 2)
+            int quantidade = Integer.parseInt(model.getValueAt(i, 1).toString());  // Quantidade está na segunda coluna (índice 1)
 
-        jTextField4.setText(String.format("%.2f", total)); // Exibe o total no TextField
+            // Soma o valor total (preço * quantidade)
+            total += preco * quantidade;
+    }
+
+    // Exibe o total formatado no TextField
+    jTextField4.setText(String.format("%.2f", total));
     }
     
     
     
     private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
         
-        DefaultTableModel model = (DefaultTableModel) jTable2.getModel(); // Tabela do carrinho
+       DefaultTableModel model = (DefaultTableModel) jTable2.getModel(); // Tabela do carrinho
 
         // Pega o nome do produto e a quantidade inseridos pelo usuário
         String nomeProduto = jTextField1.getText();
@@ -303,7 +309,15 @@ public class TelaProdutos extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Quantidade inválida. Por favor, insira um número.");
             return;
         }
-
+        
+        // Verifica se o produto já está no carrinho
+        for (int i = 0; i < model.getRowCount(); i++) {
+            String produtoExistente = model.getValueAt(i, 0).toString(); // Nome do produto na tabela
+            if (produtoExistente.equalsIgnoreCase(nomeProduto)) {
+                JOptionPane.showMessageDialog(this, "O produto já está no carrinho!");
+                return; // Sai do método para evitar a duplicação
+            }
+    }
         // Caminho do arquivo de produtos
         String caminhoArquivo = DIRETORIO_DADOS + "Produtos.csv";
 
@@ -343,8 +357,7 @@ public class TelaProdutos extends javax.swing.JFrame {
             return;
         }
         getSum();
-    }//GEN-LAST:event_jButton1MouseClicked
-
+    }                                     
     private void jButton2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton2MouseClicked
         jTable2.setModel(new DefaultTableModel(null,new String[]{"Nome do Produto","Quantidade","Preço"}));
         double zero = 0;
