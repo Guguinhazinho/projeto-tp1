@@ -240,26 +240,24 @@ private static final String DIRETORIO_DADOS = "src/Dados/";
     }
     
     try {
-        if (authenticate(email, senha, filePath)) {
-            JOptionPane.showMessageDialog(this, "Login bem-sucedido!");
-            if (filePath.equals(DIRETORIO_DADOS + "UserDB.csv")){
-                this.dispose();
-                TelaCliente tela = new TelaCliente();
-                tela.setVisible(true);
-            } else if (filePath.contains(DIRETORIO_DADOS + "AdminDB.csv")) {
-                this.dispose();
-                TelaAdmin tela = new TelaAdmin();
-                tela.setVisible(true);
-                
+            if (authenticate(email, senha, filePath)) {
+                JOptionPane.showMessageDialog(this, "Login bem-sucedido!");
+                if (filePath.equals(DIRETORIO_DADOS + "UserDB.csv")){
+                    this.dispose();
+                    TelaCliente tela = new TelaCliente(email); // Passar o email para o construtor da TelaCliente
+                    tela.setVisible(true);
+                } else if (filePath.contains(DIRETORIO_DADOS + "AdminDB.csv")) {
+                    this.dispose();
+                    TelaAdmin tela = new TelaAdmin();
+                    tela.setVisible(true);
+                }
+            } else {
+                JOptionPane.showMessageDialog(this, "Usuário ou senha incorretos!");
             }
-            
-        } else {
-            JOptionPane.showMessageDialog(this, "Usuário ou senha incorretos!");
+        } catch (IOException ex) {
+            JOptionPane.showMessageDialog(this, "Erro ao acessar o banco de dados: " + ex.getMessage());
         }
-    } catch (IOException ex) {
-        JOptionPane.showMessageDialog(this, "Erro ao acessar o banco de dados: " + ex.getMessage());
-    }
-    }                                     
+    }                            
     
     // Método para autenticar o login no arquivo CSV
 private boolean authenticate(String email, String senha, String filePath) throws IOException {
