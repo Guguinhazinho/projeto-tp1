@@ -387,7 +387,8 @@ public class TelaProdutos extends javax.swing.JFrame {
             return;
         }
     // Criar e exibir a tela de pagamento
-    TelaCompra telaPagamento = new TelaCompra();
+    String total = jTextField4.getText();
+    TelaCompra telaPagamento = new TelaCompra(total);
     telaPagamento.setVisible(true);
 }
 
