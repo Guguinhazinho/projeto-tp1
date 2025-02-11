@@ -1,5 +1,10 @@
 package com.mycompany.projetotp1;
 
+/**
+ *
+ * @author Gustavo
+ */
+
 public class Estoque {
     private String nomeProduto;
     private float valorProduto; // Alterado para float
