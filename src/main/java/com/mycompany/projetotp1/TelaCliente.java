@@ -13,7 +13,7 @@ import java.io.*;
 
 public class TelaCliente extends JFrame {
     private JTextField emailField, nomeField, cpfField, cepField, enderecoField, contatoField;
-    private JButton editarButton, fazerCompraButton, historicoButton;
+    private JButton editarButton, fazerCompraButton;
     private boolean isEditing = false;
     private String emailLogado;  // Novo campo para armazenar o email do usuário logado
     private static final String DIRETORIO_DADOS = "src/Dados/";
@@ -42,18 +42,12 @@ public class TelaCliente extends JFrame {
 
         editarButton = createButton("Adicionar/Editar Dados", buttonBackgroundColor, textColor);
         fazerCompraButton = createButton("Fazer Compra", buttonBackgroundColor, textColor);
-        historicoButton = createButton("Histórico de Compras", buttonBackgroundColor, textColor);
-
         editarButton.addActionListener(e -> toggleEditingMode());
         fazerCompraButton.addActionListener(e -> new TelaProdutos().setVisible(true));
-        historicoButton.addActionListener(e -> JOptionPane.showMessageDialog(null, "Histórico vazio (Funcionalidade será implementada)."));
-
         JPanel buttonPanel = new JPanel(new GridLayout(1, 3, 5, 5));
         buttonPanel.setBackground(backgroundColor);
         buttonPanel.add(editarButton);
         buttonPanel.add(fazerCompraButton);
-        buttonPanel.add(historicoButton);
-
         add(panel, BorderLayout.CENTER);
         add(buttonPanel, BorderLayout.SOUTH);
 
