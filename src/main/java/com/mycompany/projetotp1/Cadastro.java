@@ -12,7 +12,6 @@ import java.io.IOException;
  * @author lucas
  */
 public class Cadastro extends javax.swing.JFrame {
-    private static final String DIRETORIO_DADOS = "src/Dados/";
 
     /**
      * Creates new form Cadastro
